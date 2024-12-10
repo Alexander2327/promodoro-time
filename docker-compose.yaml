@@ -1,7 +1,10 @@
+version: "3.9"
+
 services:
 
   pg:
     image: postgres
+    restart: always
     container_name: pomodoro_postgres
     environment:
       POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB}
