@@ -21,7 +21,7 @@ class ApiPrefix(BaseModel):
 
 
 class Project(BaseModel):
-    name: str = "Promodoro-time Service"
+    name: str = "Pomodoro-time Service"
     version: str = "0.1.0"
     description: str = "Test service for fastapi practice"
 
