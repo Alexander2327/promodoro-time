@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "promodoro-poetry"
+version = "0.1.0"
+description = ""
+authors = ["Danilov Aleksandr <danilov.aa1@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.115.6"
+uvicorn = "^0.32.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
