@@ -47,4 +47,3 @@ class Repository(AbstractRepository):
 
     async def delete_one(self, pk: int):
         await self.session.execute(delete(self.model).where(self.model.id==pk))
-        await self.session.commit()
