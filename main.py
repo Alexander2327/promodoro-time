@@ -3,12 +3,14 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from core.config import settings
 from core.models import db_helper
 from api import router as api_router
 
 from exceptions import custom_exception_handler, NotFoundException, BadRequestException
+from middleware import add_process_time_header
 
 
 @asynccontextmanager
@@ -32,6 +34,16 @@ main_app.include_router(
 
 main_app.exception_handler(NotFoundException)(custom_exception_handler)
 main_app.exception_handler(BadRequestException)(custom_exception_handler)
+
+main_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+main_app.middleware("http")(add_process_time_header)
+
 
 if __name__ == "__main__":
     uvicorn.run(
