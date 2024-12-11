@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from core.config import settings
-
+from core.models import db_helper
 from api import router as api_router
 
 
@@ -13,7 +13,7 @@ from api import router as api_router
 async def lifespan(app: FastAPI):
     # startup
     yield
-    # shutdown
+    await db_helper.dispose()
 
 
 main_app = FastAPI(
