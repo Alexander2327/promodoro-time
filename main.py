@@ -8,6 +8,8 @@ from core.config import settings
 from core.models import db_helper
 from api import router as api_router
 
+from exceptions import custom_exception_handler, NotFoundException, BadRequestException
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -27,6 +29,9 @@ main_app = FastAPI(
 main_app.include_router(
     api_router,
 )
+
+main_app.exception_handler(NotFoundException)(custom_exception_handler)
+main_app.exception_handler(BadRequestException)(custom_exception_handler)
 
 if __name__ == "__main__":
     uvicorn.run(
