@@ -6,8 +6,24 @@ router = APIRouter(
 
 @router.get("/")
 async def get_tasks():
-    return {"success": True, "result": []}
+    pass
 
-@router.post("/{task_id}")
-async def post_task(task_id: int):
-    return {"success": True, "result": {"task_id": task_id}}
+@router.get("/{task_id}")
+async def get_task(task_id: int):
+    pass
+
+@router.post("/")
+async def post_task():
+    pass
+
+@router.put("/{task_id}")
+async def put_task(task_id: int):
+    pass
+
+@router.patch("/{task_id}")
+async def patch_task(task_id: int):
+    pass
+
+@router.delete("/{task_id}")
+async def delete_task(task_id: int):
+    pass
