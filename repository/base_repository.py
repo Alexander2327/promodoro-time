@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import select, insert, delete
+from sqlalchemy import select, insert, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -47,3 +47,9 @@ class Repository(AbstractRepository):
 
     async def delete_one(self, pk: int):
         await self.session.execute(delete(self.model).where(self.model.id==pk))
+
+
+    async def update_one(self, pk: int, data: dict):
+        stmt = update(self.model).where(self.model.id==pk).values(**data).returning(self.model)
+        res = await self.session.execute(stmt)
+        return res.scalar_one()
