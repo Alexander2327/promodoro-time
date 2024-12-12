@@ -1,4 +1,5 @@
 from core.schemas.category import CategoryRead, CategoryCreate
+from exceptions import NotFoundException
 from utils.unitofwork import IUnitOfWork
 
 
@@ -14,6 +15,8 @@ class CategoryService:
     async def get_category(self, category_id: int) -> CategoryRead:
         async with self.uow:
             category = await self.uow.category.find_one(category_id)
+            if not category:
+                raise NotFoundException(detail=f"Category not found")
             return CategoryRead.model_validate(category)
 
     async def add_category(self, category: CategoryCreate) -> CategoryRead:
@@ -26,5 +29,8 @@ class CategoryService:
 
     async def delete_category(self, category_id: int) -> None:
         async with self.uow:
-            await self.uow.category.delete_one(category_id)
+            category = await self.uow.category.find_one(category_id)
+            if not category:
+                raise NotFoundException(detail=f"Category not found")
+            await self.uow.category.delete_one(category.id)
             await self.uow.commit()
