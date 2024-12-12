@@ -3,11 +3,13 @@ from abc import ABC, abstractmethod
 from repository.category_repository import CategoryRepository
 from core.models.db_helper import db_helper
 from repository.task_repository import TaskRepository
+from repository.user_repository import UserRepository
 
 
 class IUnitOfWork(ABC):
     category: CategoryRepository
     task: TaskRepository
+    user: UserRepository
 
     @abstractmethod
     def __init__(self):
@@ -39,6 +41,7 @@ class UnitOfWork(IUnitOfWork):
 
         self.category = CategoryRepository(self.session)
         self.task = TaskRepository(self.session)
+        self.user = UserRepository(self.session)
 
     async def __aexit__(self, *args):
         await self.rollback()

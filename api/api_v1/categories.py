@@ -4,7 +4,9 @@ from fastapi import APIRouter, Depends
 from starlette import status
 
 from core.schemas.category import CategoryRead, CategoryCreate
+from core.schemas.user import UserAuth
 from dependencies.category_dependencies import get_category_service
+from dependencies.user_dependencies import get_current_user
 from services.category_service import CategoryService
 
 router = APIRouter(
@@ -15,6 +17,7 @@ router = APIRouter(
 @router.get("/", response_model=list[CategoryRead], status_code=status.HTTP_200_OK)
 async def get_categories(
         category_service: Annotated[CategoryService, Depends(get_category_service)],
+        user: Annotated[UserAuth, Depends(get_current_user)]
     ):
     return await category_service.get_categories()
 

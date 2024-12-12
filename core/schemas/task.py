@@ -7,6 +7,7 @@ class TaskBase(BaseModel):
     title: str
     pomodoro_count: int
     category_id: int
+    user_id: int
 
 
 class TaskCreate(TaskBase):

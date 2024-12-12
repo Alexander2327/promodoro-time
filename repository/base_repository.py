@@ -40,6 +40,11 @@ class Repository(AbstractRepository):
         res: Result = await self.session.execute(stmt)
         return res.scalar()
 
+    async def find_one_by_filter(self, filters):
+        stmt = select(self.model).filter_by(**filters)
+        res: Result = await self.session.execute(stmt)
+        return res.scalar()
+
 
     async def add_one(self, data: dict):
         stmt = insert(self.model).values(**data).returning(self.model)
