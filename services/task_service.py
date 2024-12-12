@@ -1,8 +1,4 @@
-from sqlalchemy.exc import NoResultFound
-from starlette import status
-
 from core.schemas.task import TaskRead, TaskCreate, TaskUpdate, TaskUpdatePartial
-from exceptions import NotFoundException, BadRequestException
 from utils.unitofwork import IUnitOfWork
 
 
@@ -18,10 +14,6 @@ class TaskService:
     async def get_task(self, task_id: int) -> TaskRead:
         async with self.uow:
             task = await self.uow.task.find_one(task_id)
-            if not task:
-                raise NotFoundException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Task not found",
-                )
             return TaskRead.model_validate(task)
 
     async def add_task(self, task: TaskUpdate) -> TaskRead:
@@ -40,34 +32,15 @@ class TaskService:
     async def update_task(self, task_id: int, task: TaskCreate) -> TaskRead:
         task_dict: dict = task.model_dump()
         async with self.uow:
-            try:
-                task_from_db = await self.uow.task.update_one(task_id, task_dict)
-            except NoResultFound:
-                raise NotFoundException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Task not found",
-                )
-            except Exception as e:
-                raise BadRequestException(
-                    status_code=status.HTTP_400_BAD_REQUEST, detail='Bad request',
-                )
+            task_from_db = await self.uow.task.update_one(task_id, task_dict)
             task_to_return = TaskRead.model_validate(task_from_db)
             await self.uow.commit()
             return task_to_return
 
-
     async def update_task_partial(self, task_id: int, task: TaskUpdatePartial) -> TaskRead:
         task_dict: dict = task.model_dump(exclude_unset=True)
         async with self.uow:
-            try:
-                task_from_db = await self.uow.task.update_one(task_id, task_dict)
-            except NoResultFound:
-                raise NotFoundException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Task not found",
-                )
-            except Exception as e:
-                raise BadRequestException(
-                    status_code=status.HTTP_400_BAD_REQUEST, detail='Bad request',
-                )
+            task_from_db = await self.uow.task.update_one(task_id, task_dict)
             task_to_return = TaskRead.model_validate(task_from_db)
             await self.uow.commit()
             return task_to_return

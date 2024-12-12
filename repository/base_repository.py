@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 
 from sqlalchemy import select, insert, delete, update
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette import status
+
+from exceptions import NotFoundException, BadRequestException
 
 
 class AbstractRepository(ABC):
@@ -30,13 +34,19 @@ class Repository(AbstractRepository):
 
 
     async def find_all(self):
-        result = await self.session.execute(select(self.model))
-        return result.scalars().all()
+        res = await self.session.execute(select(self.model))
+        return res.scalars().all()
 
 
     async def find_one(self, pk: int):
-        result = await self.session.execute(select(self.model).where(self.model.id==pk))
-        return result.scalar()
+        stmt = select(self.model).where(self.model.id==pk)
+        res = await self.session.execute(stmt)
+        item = res.scalar()
+        if not item:
+            raise NotFoundException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Not found",
+            )
+        return item
 
 
     async def add_one(self, data: dict):
@@ -51,5 +61,15 @@ class Repository(AbstractRepository):
 
     async def update_one(self, pk: int, data: dict):
         stmt = update(self.model).where(self.model.id==pk).values(**data).returning(self.model)
-        res = await self.session.execute(stmt)
-        return res.scalar_one()
+        try:
+            res = await self.session.execute(stmt)
+            item = res.scalar()
+        except IntegrityError:
+            raise BadRequestException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail='Bad request',
+            )
+        if not item:
+            raise NotFoundException(
+                status_code=status.HTTP_404_NOT_FOUND, detail=f"Not found",
+            )
+        return item

@@ -1,7 +1,4 @@
-from starlette import status
-
 from core.schemas.category import CategoryRead, CategoryCreate
-from exceptions import NotFoundException
 from utils.unitofwork import IUnitOfWork
 
 
@@ -17,10 +14,6 @@ class CategoryService:
     async def get_category(self, category_id: int) -> CategoryRead:
         async with self.uow:
             category = await self.uow.category.find_one(category_id)
-            if not category:
-                raise NotFoundException(
-                    status_code=status.HTTP_404_NOT_FOUND, detail="Category not found",
-                )
             return CategoryRead.model_validate(category)
 
     async def add_category(self, category: CategoryCreate) -> CategoryRead:
