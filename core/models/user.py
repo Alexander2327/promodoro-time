@@ -14,6 +14,9 @@ if TYPE_CHECKING:
 
 class User(IntIdPkMixin, CreatedUpdatedMixin, Base):
     username: Mapped[str] = mapped_column(String(30), unique=True)
+    password: Mapped[str]
+    is_active: Mapped[bool] = mapped_column(default=False)
+
     tasks: Mapped[list["Task"]] = relationship(back_populates="user")
     profile: Mapped["Profile"] = relationship(back_populates="user")
 
