@@ -9,8 +9,10 @@ from core.models.mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
     from .task import Task
+    from .profile import Profile
 
 
 class User(IntIdPkMixin, CreatedUpdatedMixin, Base):
     username: Mapped[str] = mapped_column(String(30), unique=True)
     tasks: Mapped[list["Task"]] = relationship(back_populates="user")
+    profile: Mapped["Profile"] = relationship(back_populates="user")
