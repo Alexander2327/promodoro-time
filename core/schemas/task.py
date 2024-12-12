@@ -6,7 +6,7 @@ from core.schemas.category import CategoryRead
 class TaskBase(BaseModel):
     title: str
     pomodoro_count: int
-    category: int
+    category_id: int
 
 
 class TaskCreate(TaskBase):
@@ -26,4 +26,4 @@ class TaskUpdate(TaskCreate):
 class TaskUpdatePartial(BaseModel):
     title: str | None = None
     pomodoro_count: int | None = None
-    category: int | None = None
+    category_id: int | None = None

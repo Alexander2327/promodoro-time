@@ -9,4 +9,5 @@ from .mixins.created_updated import CreatedUpdatedMixin
 class Task(IntIdPkMixin, CreatedUpdatedMixin, Base):
     title: Mapped[str]
     pomodoro_count: Mapped[int]
-    category: Mapped[int] = mapped_column(ForeignKey("categorys.id", ondelete='CASCADE'))
+    category_id: Mapped[int] = mapped_column(ForeignKey("categorys.id", ondelete='CASCADE'))
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete='CASCADE'))
