@@ -8,9 +8,9 @@ from starlette import status
 from auth import utils as auth_utils
 from core.schemas.auth import TokenInfo
 from core.schemas.user import UserCreate
-from dependencies.user_dependencies import get_user_service
+from dependencies.auth_dependencies import get_auth_service
 
-from services.user_service import UserService
+from services.auth_service import AuthService
 
 router = APIRouter(
     tags=["Auth"]
@@ -20,9 +20,9 @@ router = APIRouter(
 @router.post('/login', response_model=TokenInfo)
 async def loging_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-        user_service: Annotated[UserService, Depends(get_user_service)],
+        auth_service: Annotated[AuthService, Depends(get_auth_service)],
 ):
-    user = await user_service.authenticate_user(
+    user = await auth_service.authenticate_user(
         username=form_data.username,
         password=form_data.password,
     )
@@ -38,9 +38,9 @@ async def loging_for_access_token(
 @router.post("/register", response_model=TokenInfo, status_code=status.HTTP_201_CREATED)
 async def post_user(
         user_create: UserCreate,
-        user_service: Annotated[UserService, Depends(get_user_service)],
+        auth_service: Annotated[AuthService, Depends(get_auth_service)],
     ):
-    user = await user_service.add_user(user_create)
+    user = await auth_service.add_user(user_create)
     jwt_payload = {
         "sub": str(user.id),
         "username": user.username,
