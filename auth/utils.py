@@ -1,3 +1,5 @@
+import uuid
+
 import jwt
 import bcrypt
 
@@ -23,6 +25,7 @@ def encode_jwt(
         {
             "exp": expire,
             "iat": now,
+            "jti": str(uuid.uuid4())
         }
     )
     encoded = jwt.encode(
