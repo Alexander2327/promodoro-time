@@ -6,6 +6,8 @@ services:
     image: postgres
     restart: always
     container_name: pomodoro_postgres
+    env_file:
+      - ./.env
     environment:
       POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB}
       POSTGRES_USER: ${APP_CONFIG__DB__POSTGRES_USER}
