@@ -21,6 +21,7 @@ def event_loop():
 @pytest.fixture(scope="session", autouse=True)
 async def setup_database():
     if settings.MODE == "TEST":
+        print(1)
         engine = create_async_engine(TEST_DATABASE_URL, echo=True)
 
         async with engine.begin() as conn:

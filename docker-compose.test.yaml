@@ -6,14 +6,12 @@ services:
     image: postgres
     restart: always
     container_name: pomodoro_postgres_test
-    env_file:
-      - ./.test.env
     environment:
-      POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB}
-      POSTGRES_USER: ${APP_CONFIG__DB__POSTGRES_USER}
-      POSTGRES_PASSWORD: ${APP_CONFIG__DB__POSTGRES_PASSWORD}
+      POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB_TEST}
+      POSTGRES_USER: ${APP_CONFIG__DB__POSTGRES_USER_TEST}
+      POSTGRES_PASSWORD: ${APP_CONFIG__DB__POSTGRES_PASSWORD_TEST}
     ports:
-      - "5437:5432"
+      - "5432:5432"
     volumes:
       - pg_volume_test:/var/lib/postgresql/data/
 
