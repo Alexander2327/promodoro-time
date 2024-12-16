@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+
+  pg-test:
+    image: postgres
+    restart: always
+    container_name: pomodoro_postgres_test
+    env_file:
+      - ./.test.env
+    environment:
+      POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB}
+      POSTGRES_USER: ${APP_CONFIG__DB__POSTGRES_USER}
+      POSTGRES_PASSWORD: ${APP_CONFIG__DB__POSTGRES_PASSWORD}
+    ports:
+      - "5437:5432"
+    volumes:
+      - pg_volume_test:/var/lib/postgresql/data/
+
+volumes:
+  pg_volume_test:
