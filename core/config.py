@@ -63,6 +63,7 @@ class Settings(BaseSettings):
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
     )
+    mode: str = "DEV"
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     project: Project = Project()
