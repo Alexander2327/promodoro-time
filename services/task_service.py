@@ -14,6 +14,11 @@ class TaskService:
             tasks: list = await self.uow.task.find_all()
             return [TaskRead.model_validate(task) for task in tasks]
 
+    async def get_user_tasks(self, user_id: int) -> list[TaskRead]:
+        async with self.uow:
+            tasks: list = await self.uow.task.find_all_by_filter({"user_id": user_id})
+            return [TaskRead.model_validate(task) for task in tasks]
+
     async def get_task(self, task_id: int) -> TaskRead:
         async with self.uow:
             task = await self.uow.task.find_one(task_id)
