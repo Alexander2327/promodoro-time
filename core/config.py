@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Literal
 
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import (
@@ -7,10 +8,30 @@ from pydantic_settings import (
 )
 
 BASE_DIR = Path(__file__).parent.parent
+LOG_DEFAULT_FORMAT = "[%(asctime)s.%(msecs)03d] %(module)10s:%(lineno)-3d %(levelname)-7s - %(message)s"
+
 
 class RunConfig(BaseModel):
     host: str = "127.0.0.1"
     port: int = 8000
+
+
+class GunicornConfig(BaseModel):
+    host: str = "127.0.0.1"
+    port: int = 8001
+    workers: int = 1
+    timeout: int = 900
+
+
+class LoggingConfig(BaseModel):
+    log_level: Literal[
+        "debug",
+        "info",
+        "warning",
+        "error",
+        "critical",
+    ] = "info"
+    log_format: str = LOG_DEFAULT_FORMAT
 
 
 class ApiV1Prefix(BaseModel):
@@ -70,6 +91,8 @@ class Settings(BaseSettings):
     )
     mode: str = "DEV"
     run: RunConfig = RunConfig()
+    gunicorn: GunicornConfig = GunicornConfig()
+    logging: LoggingConfig = LoggingConfig()
     api: ApiPrefix = ApiPrefix()
     project: Project = Project()
     db: DatabaseConfig

@@ -1,3 +1,4 @@
+import logging
 from contextlib import asynccontextmanager
 
 import uvicorn
@@ -12,6 +13,11 @@ from api import router as api_router
 from exceptions import custom_exception_handler, NotFoundException, BadRequestException
 from middleware import add_process_time_header
 
+
+logging.basicConfig(
+    # level=logging.INFO
+    format=settings.logging.log_format,
+)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
