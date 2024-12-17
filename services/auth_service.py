@@ -4,6 +4,7 @@ from auth.utils import validate_password, hash_password
 from core.schemas.user import UserRead, UserCreate
 from exceptions.exception import UnauthorizedException
 from utils.unitofwork import IUnitOfWork
+from tasks.auth_tasks import send_welcome_email_task
 
 
 class AuthService:
@@ -30,3 +31,8 @@ class AuthService:
     async def notify_after_login(username: str):
         await asyncio.sleep(5)
         print(f"User {username} logged in")
+
+    @staticmethod
+    def send_welcome_email(user: UserRead):
+        send_welcome_email_task.delay(username=user.username)
+        # debug_task.delay()

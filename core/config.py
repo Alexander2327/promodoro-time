@@ -56,9 +56,14 @@ class AuthJWTConfig(BaseModel):
     refresh_token_expire_days: int = 10
 
 
+class CeleryConfig(BaseModel):
+    broker_url: str = "redis://localhost:6379/0"
+    result_backend: str = "redis://localhost:6379/0"
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=(".env",),
+        env_file=(".env.dev",),
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
@@ -69,6 +74,7 @@ class Settings(BaseSettings):
     project: Project = Project()
     db: DatabaseConfig
     auth_jwt: AuthJWTConfig = AuthJWTConfig()
+    celery: CeleryConfig = CeleryConfig()
 
 
 settings = Settings()

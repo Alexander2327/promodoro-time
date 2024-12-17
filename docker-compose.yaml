@@ -1,11 +1,24 @@
 version: "3.9"
 
 services:
+  app:
+    build: .
+    container_name: pomodoro-app
+    restart: always
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - pg
+      - redis
 
   pg:
     image: postgres
     restart: always
-    container_name: pomodoro_postgres
+    container_name: pomodoro-postgres
     environment:
       POSTGRES_DB: ${APP_CONFIG__DB__POSTGRES_DB}
       POSTGRES_USER: ${APP_CONFIG__DB__POSTGRES_USER}
@@ -14,6 +27,42 @@ services:
       - "5432:5432"
     volumes:
       - pg_volume:/var/lib/postgresql/data/
+
+  worker:
+    build: .
+    container_name: pomodoro-worker
+    command: poetry run celery -A worker.celery worker --loglevel=info
+    volumes:
+      - .:/app
+    environment:
+      - CELERY_BROKER_URL=${APP_CONFIG__CELERY__BROKER_URL}
+      - CELERY_RESULT_BACKEND=${APP_CONFIG__CELERY__RESULT_BACKEND}
+    depends_on:
+      - app
+      - redis
+
+# flower not working because of celery version 5.0
+#  flower:
+#    build: .
+#    container_name: pomodoro-flower
+#    command: poetry run celery -A worker.celery flower --port=5551
+#    ports:
+#      - 5551:5551
+#    volumes:
+#      - .:/app
+#    environment:
+#      - CELERY_BROKER_URL=${APP_CONFIG__CELERY__BROKER_URL}
+#      - CELERY_RESULT_BACKEND=${APP_CONFIG__CELERY__RESULT_BACKEND}
+#    depends_on:
+#      - app
+#      - redis
+#      - worker
+
+  redis:
+    image: redis:7
+    container_name: pomodoro-redis
+    ports:
+      - 6379:6379
 
 volumes:
   pg_volume:

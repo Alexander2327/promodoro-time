@@ -52,4 +52,7 @@ async def post_user(
     user = await auth_service.add_user(user_create)
     access_token = create_access_token(user)
     refresh_token = create_refresh_token(user)
+
+    auth_service.send_welcome_email(user)
+
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
