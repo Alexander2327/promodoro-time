@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, BackgroundTasks
 
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
@@ -22,6 +22,7 @@ router = APIRouter(
 async def loging_for_access_token(
         form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
         auth_service: Annotated[AuthService, Depends(get_auth_service)],
+        bg: BackgroundTasks,
 ):
     user = await auth_service.authenticate_user(
         username=form_data.username,
@@ -29,6 +30,8 @@ async def loging_for_access_token(
     )
     access_token = create_access_token(user)
     refresh_token = create_refresh_token(user)
+
+    bg.add_task(auth_service.notify_after_login, username=user.username)
 
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
 

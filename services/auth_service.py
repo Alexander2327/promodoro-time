@@ -1,3 +1,5 @@
+import asyncio
+
 from auth.utils import validate_password, hash_password
 from core.schemas.user import UserRead, UserCreate
 from exceptions.exception import UnauthorizedException
@@ -23,3 +25,8 @@ class AuthService:
             user_to_return = UserRead.model_validate(user_from_db)
             await self.uow.commit()
             return user_to_return
+
+    @staticmethod
+    async def notify_after_login(username: str):
+        await asyncio.sleep(5)
+        print(f"User {username} logged in")
