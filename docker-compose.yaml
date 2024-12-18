@@ -40,6 +40,7 @@ services:
     depends_on:
       - app
       - redis
+      - rabbitmq
 
 # flower not working because of celery version 5.0
 #  flower:
@@ -63,6 +64,13 @@ services:
     container_name: pomodoro-redis
     ports:
       - 6379:6379
+
+  rabbitmq:
+     image: rabbitmq:management
+     container_name: pomodoro-rabbitmq
+     ports:
+       - "5672:5672"
+       - "15672:15672"
 
 volumes:
   pg_volume:
