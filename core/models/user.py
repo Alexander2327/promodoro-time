@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from pydantic import EmailStr
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -15,6 +16,7 @@ if TYPE_CHECKING:
 class User(IntIdPkMixin, CreatedUpdatedMixin, Base):
     username: Mapped[str] = mapped_column(String(30), unique=True)
     password: Mapped[str]
+    email: Mapped[EmailStr] = mapped_column(String(30), nullable=True)
     is_active: Mapped[bool] = mapped_column(default=False)
 
     tasks: Mapped[list["Task"]] = relationship(back_populates="user")
