@@ -32,6 +32,11 @@ class UnauthorizedException(CustomException):
         super().__init__(detail=detail, status_code=status.HTTP_401_UNAUTHORIZED, message=message)
 
 
+class AlreadyExistsException(CustomException):
+    def __init__(self, detail: str, message: str | None = None):
+        super().__init__(detail=detail, status_code=status.HTTP_409_CONFLICT, message=message)
+
+
 async def custom_exception_handler(request: Request, exc: CustomException) -> JSONResponse:
     error = jsonable_encoder(
         CustomExceptionModel(status_code=exc.status_code, message=exc.message, detail=exc.detail)
