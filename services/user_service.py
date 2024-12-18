@@ -1,12 +1,9 @@
 from sqlalchemy.exc import IntegrityError
 
-from auth.utils import validate_password, hash_password
-from core.schemas.user import UserRead, UserCreate, UserUpdatePartial
-from exceptions.exception import (
-    UnauthorizedException,
-    NotFoundException,
-    BadRequestException,
-)
+from auth.utils import hash_password, validate_password
+from core.schemas.user import UserCreate, UserRead, UserUpdatePartial
+from exceptions.exception import (BadRequestException, NotFoundException,
+                                  UnauthorizedException)
 from utils.unitofwork import IUnitOfWork
 
 

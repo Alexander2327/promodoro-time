@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import HTTPBearer
 
 from core.config import settings
+
 from .api_v1 import router as router_api_v1
 
 http_bearer = HTTPBearer(auto_error=False)

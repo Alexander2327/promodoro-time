@@ -1,9 +1,9 @@
 from datetime import timedelta
 from mmap import ACCESS_READ
 
+from auth import utils as auth_utils
 from core.config import settings
 from core.schemas.user import UserRead
-from auth import utils as auth_utils
 
 TOKEN_TYPE_FIELD = "type"
 ACCESS_TOKEN_TYPE = "access"

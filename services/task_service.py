@@ -1,7 +1,8 @@
 from sqlalchemy.exc import IntegrityError
 
-from core.schemas.task import TaskRead, TaskCreate, TaskUpdate, TaskUpdatePartial
-from exceptions import NotFoundException, BadRequestException
+from core.schemas.task import (TaskCreate, TaskRead, TaskUpdate,
+                               TaskUpdatePartial)
+from exceptions import BadRequestException, NotFoundException
 from utils.unitofwork import IUnitOfWork
 
 

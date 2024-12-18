@@ -7,9 +7,9 @@ __all__ = (
     "Profile",
 )
 
-from .db_helper import db_helper
 from .base import Base
-from .task import Task
 from .category import Category
-from .user import User
+from .db_helper import db_helper
 from .profile import Profile
+from .task import Task
+from .user import User

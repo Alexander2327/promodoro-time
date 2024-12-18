@@ -2,9 +2,9 @@ import json
 import uuid
 from dataclasses import dataclass
 
-from core.config import settings
-
 import aio_pika
+
+from core.config import settings
 
 
 @dataclass

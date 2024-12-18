@@ -4,8 +4,5 @@ __all__ = (
     "custom_exception_handler",
 )
 
-from .exception import (
-    NotFoundException,
-    BadRequestException,
-    custom_exception_handler,
-)
+from .exception import (BadRequestException, NotFoundException,
+                        custom_exception_handler)

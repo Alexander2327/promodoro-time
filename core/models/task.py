@@ -4,12 +4,12 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .base import Base
-from .mixins.int_id_pk import IntIdPkMixin
 from .mixins.created_updated import CreatedUpdatedMixin
+from .mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
-    from .user import User
     from .category import Category
+    from .user import User
 
 
 class Task(IntIdPkMixin, CreatedUpdatedMixin, Base):

@@ -4,7 +4,8 @@ import jwt
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 
-from api.api_v1.helpers import TOKEN_TYPE_FIELD, ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE
+from api.api_v1.helpers import (ACCESS_TOKEN_TYPE, REFRESH_TOKEN_TYPE,
+                                TOKEN_TYPE_FIELD)
 from auth.utils import decode_jwt
 from core.schemas.user import UserAuth
 from exceptions.exception import UnauthorizedException

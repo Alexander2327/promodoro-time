@@ -1,4 +1,4 @@
-from core.schemas.category import CategoryRead, CategoryCreate
+from core.schemas.category import CategoryCreate, CategoryRead
 from exceptions import NotFoundException
 from utils.unitofwork import IUnitOfWork
 

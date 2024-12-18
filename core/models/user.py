@@ -9,8 +9,8 @@ from core.models.mixins.created_updated import CreatedUpdatedMixin
 from core.models.mixins.int_id_pk import IntIdPkMixin
 
 if TYPE_CHECKING:
-    from .task import Task
     from .profile import Profile
+    from .task import Task
 
 
 class User(IntIdPkMixin, CreatedUpdatedMixin, Base):

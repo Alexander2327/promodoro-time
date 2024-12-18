@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.engine import Result
-from sqlalchemy import select, insert, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 

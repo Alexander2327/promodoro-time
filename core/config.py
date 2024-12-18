@@ -2,10 +2,7 @@ from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, PostgresDsn
-from pydantic_settings import (
-    BaseSettings,
-    SettingsConfigDict,
-)
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).parent.parent
 LOG_DEFAULT_FORMAT = (

@@ -3,16 +3,15 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
-from fastapi.responses import ORJSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import ORJSONResponse
 
+from api import router as api_router
 from core.config import settings
 from core.models import db_helper
-from api import router as api_router
-
-from exceptions import custom_exception_handler, NotFoundException, BadRequestException
+from exceptions import (BadRequestException, NotFoundException,
+                        custom_exception_handler)
 from middleware import add_process_time_header
-
 
 logging.basicConfig(
     # level=logging.INFO

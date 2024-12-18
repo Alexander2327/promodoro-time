@@ -1,12 +1,10 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
-
 from starlette import status
 
 from core.schemas.user import UserRead, UserUpdatePartial
 from dependencies.user_dependencies import get_user_service
-
 from services.user_service import UserService
 
 router = APIRouter(tags=["User"])

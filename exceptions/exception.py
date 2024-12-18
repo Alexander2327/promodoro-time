@@ -1,7 +1,7 @@
 from fastapi import HTTPException, Request
-from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from starlette import status
 
 

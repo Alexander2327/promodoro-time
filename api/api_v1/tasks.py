@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from core.schemas.task import TaskCreate, TaskRead, TaskUpdate, TaskUpdatePartial
+from core.schemas.task import (TaskCreate, TaskRead, TaskUpdate,
+                               TaskUpdatePartial)
 from core.schemas.user import UserAuth
 from dependencies.task_dependencies import get_task_service
 from dependencies.user_dependencies import get_current_user

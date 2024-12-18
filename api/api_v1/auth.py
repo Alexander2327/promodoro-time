@@ -1,16 +1,14 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, BackgroundTasks
-
+from fastapi import APIRouter, BackgroundTasks, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
 from api.api_v1.helpers import create_access_token, create_refresh_token
 from core.schemas.auth import TokenInfo
-from core.schemas.user import UserCreate, UserAuth
+from core.schemas.user import UserAuth, UserCreate
 from dependencies.auth_dependencies import get_auth_service
 from dependencies.user_dependencies import get_current_user_for_refresh
-
 from services.auth_service import AuthService
 
 router = APIRouter(tags=["Auth"])

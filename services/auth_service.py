@@ -2,12 +2,12 @@ import asyncio
 
 from sqlalchemy.exc import IntegrityError
 
-from auth.utils import validate_password, hash_password
+from auth.utils import hash_password, validate_password
 from clients.mail import MailClient
-from core.schemas.user import UserRead, UserCreate
-from exceptions.exception import UnauthorizedException, AlreadyExistsException
-from utils.unitofwork import IUnitOfWork
+from core.schemas.user import UserCreate, UserRead
+from exceptions.exception import AlreadyExistsException, UnauthorizedException
 from tasks.auth_tasks import send_welcome_email_task
+from utils.unitofwork import IUnitOfWork
 
 
 class AuthService:

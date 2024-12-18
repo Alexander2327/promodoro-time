@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from repository.category_repository import CategoryRepository
 from core.models.db_helper import db_helper
+from repository.category_repository import CategoryRepository
 from repository.task_repository import TaskRepository
 from repository.user_repository import UserRepository
 

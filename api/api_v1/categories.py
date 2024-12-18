@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from core.schemas.category import CategoryRead, CategoryCreate
+from core.schemas.category import CategoryCreate, CategoryRead
 from core.schemas.user import UserAuth
 from dependencies.category_dependencies import get_category_service
 from dependencies.user_dependencies import get_current_user
