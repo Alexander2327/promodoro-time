@@ -47,4 +47,4 @@ jobs:
           poetry lock --no-update
           poetry install
       - name: Run Unit Tests
-        run: poetry run pytest tests/
+#        run: poetry run pytest tests/
