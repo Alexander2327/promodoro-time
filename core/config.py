@@ -82,10 +82,16 @@ class CeleryConfig(BaseModel):
     result_backend: str = "redis://localhost:6379/0"
 
 
+class BrokerConfig(BaseModel):
+    url: str = "redis://localhost:6379/0"
+    mail_queue: str
+    callback_mail_queue: str
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        # env_file=(".env.dev",),
-        env_file=(".env",),
+        env_file=(".env.dev",),
+        # env_file=(".env",),
         case_sensitive=False,
         env_nested_delimiter="__",
         env_prefix="APP_CONFIG__",
@@ -97,8 +103,9 @@ class Settings(BaseSettings):
     api: ApiPrefix = ApiPrefix()
     project: Project = Project()
     db: DatabaseConfig
-    auth_jwt: AuthJWTConfig = AuthJWTConfig()
-    celery: CeleryConfig = CeleryConfig()
+    auth_jwt: AuthJWTConfig
+    celery: CeleryConfig
+    broker: BrokerConfig
 
 
 settings = Settings()

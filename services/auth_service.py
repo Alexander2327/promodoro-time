@@ -3,6 +3,7 @@ import asyncio
 from sqlalchemy.exc import IntegrityError
 
 from auth.utils import validate_password, hash_password
+from clients.mail import MailClient
 from core.schemas.user import UserRead, UserCreate
 from exceptions.exception import UnauthorizedException, AlreadyExistsException
 from utils.unitofwork import IUnitOfWork
@@ -10,8 +11,9 @@ from tasks.auth_tasks import send_welcome_email_task
 
 
 class AuthService:
-    def __init__(self, uow: IUnitOfWork):
+    def __init__(self, uow: IUnitOfWork, mail_client: MailClient):
         self.uow = uow
+        self.mail_client = mail_client
 
     async def authenticate_user(self, username: str, password: str) -> UserRead:
         async with self.uow:
@@ -38,6 +40,10 @@ class AuthService:
         print(f"User {username} logged in")
 
     @staticmethod
-    def send_welcome_email(user: UserRead):
+    def send_welcome_email_via_celery(user: UserRead):
         send_welcome_email_task.delay(username=user.username)
         # debug_task.delay()
+
+
+    async def send_welcome_email_via_email_service(self, user: UserRead):
+        await self.mail_client.send_welcome_email(to=user.email)

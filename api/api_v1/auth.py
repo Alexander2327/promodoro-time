@@ -53,6 +53,7 @@ async def post_user(
     access_token = create_access_token(user)
     refresh_token = create_refresh_token(user)
 
-    auth_service.send_welcome_email(user)
+    auth_service.send_welcome_email_via_celery(user)
+    await auth_service.send_welcome_email_via_email_service(user)
 
     return TokenInfo(access_token=access_token, refresh_token=refresh_token)
