@@ -12,9 +12,7 @@ class MailClient:
     settings: settings
 
     async def send_welcome_email(self, to: str):
-        connection = await aio_pika.connect_robust(
-            settings.broker.url
-        )
+        connection = await aio_pika.connect_robust(settings.broker.url)
 
         email_body = {
             "message": "Welcome to the Pomodoro!",
@@ -25,7 +23,7 @@ class MailClient:
             await channel.default_exchange.publish(
                 message=aio_pika.Message(
                     body=json.dumps(email_body).encode(),
-                    correlation_id=str(uuid.uuid4())
+                    correlation_id=str(uuid.uuid4()),
                 ),
                 routing_key=self.settings.broker.mail_queue,
             )

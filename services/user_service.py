@@ -2,7 +2,11 @@ from sqlalchemy.exc import IntegrityError
 
 from auth.utils import validate_password, hash_password
 from core.schemas.user import UserRead, UserCreate, UserUpdatePartial
-from exceptions.exception import UnauthorizedException, NotFoundException, BadRequestException
+from exceptions.exception import (
+    UnauthorizedException,
+    NotFoundException,
+    BadRequestException,
+)
 from utils.unitofwork import IUnitOfWork
 
 
@@ -23,11 +27,14 @@ class UserService:
         async with self.uow:  # вход в контекст (если выбьет с ошибкой, то изменения откатятся)
             user_from_db = await self.uow.user.add_one(user_dict)
             user_to_return = UserRead.model_validate(
-                user_from_db)  # обработка полученных данных из БД для их возврата - делаем модель пидантик
+                user_from_db
+            )  # обработка полученных данных из БД для их возврата - делаем модель пидантик
             await self.uow.commit()  # это самый важный кусок кода, до этого коммита можно записать данные в 50 моделей, но если кто-то вылетит с ошибкой, все изменения откатятся! Если код дошёл сюда, то все прошло окей!
             return user_to_return
 
-    async def update_user_partial(self, user_id: int, user: UserUpdatePartial) -> UserRead:
+    async def update_user_partial(
+        self, user_id: int, user: UserUpdatePartial
+    ) -> UserRead:
         user_dict: dict = user.model_dump(exclude_unset=True)
         async with self.uow:
             user_obj = await self.uow.user.find_one(user_id)
@@ -36,7 +43,7 @@ class UserService:
             try:
                 user_from_db = await self.uow.user.update_one(user_obj.id, user_dict)
             except IntegrityError:
-                raise BadRequestException(detail='Bad request')
+                raise BadRequestException(detail="Bad request")
             task_to_return = UserRead.model_validate(user_from_db)
             await self.uow.commit()
             return task_to_return

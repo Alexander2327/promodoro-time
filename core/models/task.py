@@ -11,11 +11,14 @@ if TYPE_CHECKING:
     from .user import User
     from .category import Category
 
+
 class Task(IntIdPkMixin, CreatedUpdatedMixin, Base):
     title: Mapped[str]
     pomodoro_count: Mapped[int]
-    category_id: Mapped[int] = mapped_column(ForeignKey("categorys.id", ondelete='CASCADE'))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete='CASCADE'))
+    category_id: Mapped[int] = mapped_column(
+        ForeignKey("categorys.id", ondelete="CASCADE")
+    )
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
     user: Mapped["User"] = relationship(back_populates="tasks")
     category: Mapped["Category"] = relationship(back_populates="tasks")
 

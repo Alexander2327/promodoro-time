@@ -51,12 +51,14 @@ class TaskService:
             try:
                 task_from_db = await self.uow.task.update_one(task_obj.id, task_dict)
             except IntegrityError:
-                raise BadRequestException(detail='Bad request')
+                raise BadRequestException(detail="Bad request")
             task_to_return = TaskRead.model_validate(task_from_db)
             await self.uow.commit()
             return task_to_return
 
-    async def update_task_partial(self, task_id: int, task: TaskUpdatePartial) -> TaskRead:
+    async def update_task_partial(
+        self, task_id: int, task: TaskUpdatePartial
+    ) -> TaskRead:
         task_dict: dict = task.model_dump(exclude_unset=True)
         async with self.uow:
             task_obj = await self.uow.task.find_one(task_id)
@@ -65,7 +67,7 @@ class TaskService:
             try:
                 task_from_db = await self.uow.task.update_one(task_obj.id, task_dict)
             except IntegrityError:
-                raise BadRequestException(detail='Bad request')
+                raise BadRequestException(detail="Bad request")
             task_to_return = TaskRead.model_validate(task_from_db)
             await self.uow.commit()
             return task_to_return

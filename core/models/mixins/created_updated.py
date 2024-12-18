@@ -10,6 +10,8 @@ class CreatedUpdatedMixin:
         DateTime, nullable=False, server_default=text("TIMEZONE('utc', now())")
     )
     updated: Mapped[datetime] = mapped_column(
-        DateTime, nullable=False, server_default=text("TIMEZONE('utc', now())"),
-        onupdate=func.now()
+        DateTime,
+        nullable=False,
+        server_default=text("TIMEZONE('utc', now())"),
+        onupdate=func.now(),
     )

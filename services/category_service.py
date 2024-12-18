@@ -20,10 +20,14 @@ class CategoryService:
             return CategoryRead.model_validate(category)
 
     async def add_category(self, category: CategoryCreate) -> CategoryRead:
-        category_dict: dict = category.model_dump()  # подготовка данных для внесения в БД
+        category_dict: dict = (
+            category.model_dump()
+        )  # подготовка данных для внесения в БД
         async with self.uow:  # вход в контекст (если выбьет с ошибкой, то изменения откатятся)
             category_from_db = await self.uow.category.add_one(category_dict)
-            category_to_return = CategoryRead.model_validate(category_from_db)  # обработка полученных данных из БД для их возврата - делаем модель пидантик
+            category_to_return = CategoryRead.model_validate(
+                category_from_db
+            )  # обработка полученных данных из БД для их возврата - делаем модель пидантик
             await self.uow.commit()  # это самый важный кусок кода, до этого коммита можно записать данные в 50 моделей, но если кто-то вылетит с ошибкой, все изменения откатятся! Если код дошёл сюда, то все прошло окей!
             return category_to_return
 

@@ -11,10 +11,10 @@ REFRESH_TOKEN_TYPE = "refresh"
 
 
 def create_jwt(
-        token_type: str,
-        token_data: dict,
-        expire_minutes: int = settings.auth_jwt.access_token_expire_minutes,
-        expire_timedelta: timedelta | None = None,
+    token_type: str,
+    token_data: dict,
+    expire_minutes: int = settings.auth_jwt.access_token_expire_minutes,
+    expire_timedelta: timedelta | None = None,
 ) -> str:
     jwt_payload = {TOKEN_TYPE_FIELD: token_type}
     jwt_payload.update(token_data)

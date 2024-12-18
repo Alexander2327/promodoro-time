@@ -9,4 +9,3 @@ from .exception import (
     BadRequestException,
     custom_exception_handler,
 )
-

@@ -81,7 +81,6 @@ async def run_async_migrations() -> None:
     await connectable.dispose()
 
 
-
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
 

@@ -57,6 +57,11 @@ class Repository(AbstractRepository):
         await self.session.execute(delete(self.model).where(self.model.id == pk))
 
     async def update_one(self, pk: int, data: dict):
-        stmt = update(self.model).where(self.model.id == pk).values(**data).returning(self.model)
+        stmt = (
+            update(self.model)
+            .where(self.model.id == pk)
+            .values(**data)
+            .returning(self.model)
+        )
         res: Result = await self.session.execute(stmt)
         return res.scalar()

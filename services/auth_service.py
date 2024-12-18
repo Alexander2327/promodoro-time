@@ -44,6 +44,5 @@ class AuthService:
         send_welcome_email_task.delay(username=user.username)
         # debug_task.delay()
 
-
     async def send_welcome_email_via_email_service(self, user: UserRead):
         await self.mail_client.send_welcome_email(to=user.email)

@@ -15,5 +15,7 @@ class Profile(IntIdPkMixin, CreatedUpdatedMixin, Base):
     first_name: Mapped[str | None] = mapped_column(String(40))
     last_name: Mapped[str | None] = mapped_column(String(40))
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete='CASCADE'), unique=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"), unique=True
+    )
     user: Mapped["User"] = relationship(back_populates="profile")

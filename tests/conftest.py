@@ -6,9 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine
 from core.config import settings
 from core.models import Base
 
-pytest_plugins = [
-
-]
+pytest_plugins = []
 
 TEST_DATABASE_URL = settings.db.url
 

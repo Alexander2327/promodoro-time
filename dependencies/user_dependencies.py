@@ -22,7 +22,9 @@ def validate_token_type(payload: dict, token_type: str) -> bool:
     current_token_type: str = payload.get(TOKEN_TYPE_FIELD)
     if current_token_type == token_type:
         return True
-    raise UnauthorizedException(detail=f"Invalid token type: {current_token_type!r} expected {token_type!r}")
+    raise UnauthorizedException(
+        detail=f"Invalid token type: {current_token_type!r} expected {token_type!r}"
+    )
 
 
 def validate_token_user_data(payload: dict) -> bool:

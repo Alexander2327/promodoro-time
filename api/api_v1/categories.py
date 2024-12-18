@@ -16,31 +16,33 @@ router = APIRouter(
 
 @router.get("/", response_model=list[CategoryRead], status_code=status.HTTP_200_OK)
 async def get_categories(
-        category_service: Annotated[CategoryService, Depends(get_category_service)],
-        user: Annotated[UserAuth, Depends(get_current_user)]
-    ):
+    category_service: Annotated[CategoryService, Depends(get_category_service)],
+    user: Annotated[UserAuth, Depends(get_current_user)],
+):
     return await category_service.get_categories()
 
 
-@router.get("/{category_id}", response_model=CategoryRead, status_code=status.HTTP_200_OK)
+@router.get(
+    "/{category_id}", response_model=CategoryRead, status_code=status.HTTP_200_OK
+)
 async def get_category(
-        category_id: int,
-        category_service: Annotated[CategoryService, Depends(get_category_service)],
-    ):
+    category_id: int,
+    category_service: Annotated[CategoryService, Depends(get_category_service)],
+):
     return await category_service.get_category(category_id)
 
 
 @router.post("/", response_model=CategoryRead, status_code=status.HTTP_201_CREATED)
 async def post_category(
-        category_create: CategoryCreate,
-        category_service: Annotated[CategoryService, Depends(get_category_service)],
-    ):
-   return await category_service.add_category(category_create)
+    category_create: CategoryCreate,
+    category_service: Annotated[CategoryService, Depends(get_category_service)],
+):
+    return await category_service.add_category(category_create)
 
 
 @router.delete("/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_category(
-        category_id: int,
-        category_service: Annotated[CategoryService, Depends(get_category_service)],
-    ):
+    category_id: int,
+    category_service: Annotated[CategoryService, Depends(get_category_service)],
+):
     return await category_service.delete_category(category_id)
