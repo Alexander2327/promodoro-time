@@ -15,7 +15,7 @@ router = APIRouter(
 
 
 @router.patch("/{user_id}", response_model=UserRead, status_code=status.HTTP_200_OK)
-async def post_user(
+async def patch_user(
         user_id: int,
         user: UserUpdatePartial,
         user_service: Annotated[UserService, Depends(get_user_service)],
