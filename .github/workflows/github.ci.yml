@@ -26,7 +26,7 @@ jobs:
           poetry lock --no-update
           poetry install
       - name: Black
-        run: poetry run black app
+        run: poetry run black .
 
   unit-test:
     runs-on: ubuntu-latest
